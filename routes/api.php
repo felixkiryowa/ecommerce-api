@@ -18,6 +18,7 @@ Route::post('v1/authenticate', 'User\UserController@authenticate');
 Route::get('v1/open', 'TestData\DataController@open');
 
 Route::group(['middleware' => ['jwt.verify']], function() {
+    Route::apiResource('v1/products', 'Product\ProductController');
     Route::get('v1/user', 'User\UserController@getAuthenticatedUser');
     Route::get('v1/closed', 'TestData\DataController@closed');
 });
