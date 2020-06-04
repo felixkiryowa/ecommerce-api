@@ -44,6 +44,11 @@ class UserController extends Controller
             }
             $generatedToken = [
                 'success' => true,
+                'user' =>[
+                    'username' => $user->username, 
+                    'email' => $user->email,
+                    'user_id'=>$user->id
+                ],
                 'auth_token' => 'Bearer '. $token,
             ];
 
@@ -86,10 +91,22 @@ class UserController extends Controller
             'password' => Hash::make( $request->get( 'password' ) ),
         ] );
 
-        return response()->json([
+
+        $token = JWTAuth::fromUser($user);
+
+        $response = [
             'success' => true,
+            'user' => [
+                'username' => $user->username, 
+                'email' => $user->email,
+                'user_id'=>$user->id
+            ],
+            'auth_token' => 'Bearer '. $token,            
             'message' => 'Sucessfully created an account please Log in'
-        ], 201);
+
+            ];
+
+        return response()->json($response,201);
     }
 
     /**
