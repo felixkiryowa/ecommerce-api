@@ -5,6 +5,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
+use App\Http\Resources\User as UserResource;
 use Tymon\JWTAuth\Exceptions\JWTException;
 use App\User;
 use JWTAuth;
@@ -66,6 +67,37 @@ class UserController extends Controller
             }
 
         }
+    }
+    /**
+     * Function to get all the users
+     */
+    public function get_all_users() {
+        $users  = User::all();
+        return UserResource::collection($users);
+    }
+
+    /**
+     * Function to delete a user
+     */
+    public function delete_user($id) {
+
+        $user = User::find($id);
+
+        if($user) {
+          $user->delete();
+          return response()->json( [
+            'success' => true,
+            'message' => 'Successfully deleted a user'
+        ], 200 );
+        }else {
+            return response()->json( [
+                'success' => true,
+                'message' => 'Could not find a user'
+            ], 404 );
+        }
+
+
+
     }
 
     /**

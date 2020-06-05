@@ -18,7 +18,28 @@ Route::post('v1/authenticate', 'User\UserController@authenticate');
 Route::get('v1/open', 'TestData\DataController@open');
 
 Route::group(['middleware' => ['jwt.verify']], function() {
-    Route::apiResource('v1/products', 'Product\ProductController');
+        // List a products
+    Route::get('v1/products', 'Product\ProductController@index');
+
+    // List single product
+    Route::get('v1/product/{id}', 'Product\ProductController@show');
+
+    // Create new product
+    Route::post('v1/product', 'Product\ProductController@store');
+
+    // Update product
+    Route::post('v1/edit/product', 'Product\ProductController@edit');
+
+    // Delete product
+    Route::delete('v1/product/{id}', 'Product\ProductController@destroy');
+
+
+    // Get all users 
+    Route::get('v1/users', 'User\UserController@get_all_users');
+    // Delete user
+    Route::delete('v1/user/{id}', 'User\UserController@delete_user');
+
+
     Route::get('v1/user', 'User\UserController@getAuthenticatedUser');
     Route::get('v1/closed', 'TestData\DataController@closed');
 });
