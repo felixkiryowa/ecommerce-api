@@ -16,6 +16,8 @@ use Illuminate\Support\Facades\Route;
 Route::post('v1/register', 'User\UserController@register');
 Route::post('v1/authenticate', 'User\UserController@authenticate');
 Route::get('v1/open', 'TestData\DataController@open');
+// Get all users 
+Route::get('v1/users', 'User\UserController@get_all_users');
 
 Route::group(['middleware' => ['jwt.verify']], function() {
         // List a products
@@ -33,9 +35,6 @@ Route::group(['middleware' => ['jwt.verify']], function() {
     // Delete product
     Route::delete('v1/product/{id}', 'Product\ProductController@destroy');
 
-
-    // Get all users 
-    Route::get('v1/users', 'User\UserController@get_all_users');
     // Delete user
     Route::delete('v1/user/{id}', 'User\UserController@delete_user');
 
